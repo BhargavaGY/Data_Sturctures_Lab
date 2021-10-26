@@ -1,0 +1,68 @@
+
+#include<stdio.h>
+#include<ctype.h>
+#include<string.h>
+#include<stdbool.h>
+
+#define SIZE 50
+
+void push(char value);
+char pop();
+bool isempty();
+void infixtopostfix(char expr[], int length);
+
+
+char stack[SIZE];
+int top = -1;
+
+void push(char value)
+{
+    stack[++top] = value;
+}
+
+char pop()
+{
+    return(stack[top--]);
+}
+
+bool isempty()
+{
+    if(top == -1)
+       return true;
+    else
+       return false;
+}
+
+void infixtopostfix(char expr[],int length)
+{
+    char postfix;
+    int i;
+
+    for(i = 0; i < length; i++)
+    {
+        if(isalnum(expr[i]))
+           postfix  = postfix + expr[i];
+        else
+           push(expr[i]);
+    }
+    
+    while(!(isempty()))
+    {
+        strcat(postfix, pop());
+    }
+    
+   printf("Postfix expression is: %s",postfix);
+}
+
+int main()
+{
+    char expression[SIZE];
+    printf("Enter the infix expression");
+    gets(expression);
+    
+    infixtopostfix(expression,strlen(expression));
+    
+    return 0;
+}
+
+
