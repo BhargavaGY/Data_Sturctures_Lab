@@ -1,16 +1,9 @@
-
 #include<stdio.h>
 #include<ctype.h>
 #include<string.h>
 #include<stdbool.h>
 
 #define SIZE 50
-
-void push(char value);
-char pop();
-bool isempty();
-void infixtopostfix(char expr[], int length);
-
 
 char stack[SIZE];
 int top = -1;
@@ -33,25 +26,59 @@ bool isempty()
        return false;
 }
 
+int pr(char symbol)
+{
+    if(symbol == '^')
+       return(3);
+    else if(symbol == '*' || symbol == '/')
+       return(2);
+    else if(symbol == '+' || symbol == '-')
+       return(1);
+    else 
+       return(0);
+    
+}
+
 void infixtopostfix(char expr[],int length)
 {
-    char postfix;
+    char postfix[SIZE];
     int i;
+    int k = 0;
+    char elem;
 
     for(i = 0; i < length; i++)
     {
-        if(isalnum(expr[i]))
-           postfix  = postfix + expr[i];
-        else
+        if(expr[i] == '(')
            push(expr[i]);
+        else
+        {
+          if(isalnum(expr[i]))
+            postfix[k++] =+ expr[i];
+          else
+            if(expr[i] == ')')
+            {  while(stack[top] != '(')
+                    postfix[k++] =+ pop();
+                elem = pop();
+            }
+            else
+            {
+                while(pr(stack[top]) >= pr(expr[i]))
+                    postfix[k++] =+ pop();
+                push(expr[i]);
+            }
+           
+        }
     }
     
     while(!(isempty()))
     {
-        strcat(postfix, pop());
+        postfix[k++] =+ pop();
     }
+
+    postfix[k] = '\0';
     
-   printf("Postfix expression is: %s",postfix);
+    printf("Postfix expression is: %s",postfix);
+   
 }
 
 int main()
@@ -64,5 +91,3 @@ int main()
     
     return 0;
 }
-
-
