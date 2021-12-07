@@ -65,19 +65,30 @@ void randominsert()
     new->next = NULL;
     
     temp = head;
-    for(i = 1; i < loc -1; i++)
+    for(int i = 1; i < pos -1; i++)
     {
         temp = temp->next;
     }
-    new-next = temp->next;
+    new->next = temp->next;
     temp->next = new;
+}
+
+void display()
+{
+    struct node *temp;
+    temp = head;
+    while(temp != NULL)
+    {
+        printf("%d\t",temp->id);
+        temp = temp->next;
+    }
 }
 void main()
 {
     int choice = 0;
     while(choice >= 0)
     {
-        printf("\n1.Insert at beginning\t2.Insert at end\t3.Insert at random position\n");
+        printf("\n1.Insert at beginning\t2.Insert at end\t3.Insert at random position\t4.Display\n");
         scanf("%d", &choice);
         switch(choice)
         {
@@ -87,8 +98,9 @@ void main()
                     break;
             case 3 : randominsert();
                     break;
+            case 4 : display();
+                    break;
             default : exit(0);
         }
     }
 }
-
