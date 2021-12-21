@@ -73,6 +73,75 @@ void randominsert()
     temp->next = new;
 }
 
+void start_delete()
+{
+    struct node *temp;
+    if(head == NULL)
+       printf("No node to delete\n");
+    else
+      if(head->next == NULL)
+      {
+          free(head);
+          head = NULL;
+      }
+      else
+      {
+          temp = head;
+          head  =  head->next;
+          free(temp);
+      }
+}
+void end_delete()
+{
+    struct node *temp, *prev;
+    if(head == NULL)
+      printf("No node to delete\n");
+    else
+      if(head->next == NULL)
+      {
+          free(head);
+          head = NULL;
+      }
+      else
+      {
+          temp = head;
+          while(temp->next != NULL)
+          {
+              prev = temp;
+              temp = temp->next;
+          }
+          free(temp);
+          prev->next = NULL;
+          
+      }
+}
+
+void random_delete()
+{
+    struct node *temp, *prev;
+    if(head == NULL)
+      printf("No node to delete\n");
+    else
+      {
+          int pos;
+          printf("Enter the position: ");
+          scanf("%d", &pos);
+          temp = head;
+          for(int i = 1; i < pos; i++)
+          {
+              prev = temp;
+              temp = temp->next;
+              
+              if(temp == NULL)
+              {  printf("Invalid position\n");
+                 return;
+              }
+          }
+          prev->next = temp->next;
+          free(temp);
+      }
+}
+
 void display()
 {
     struct node *temp;
@@ -88,7 +157,7 @@ void main()
     int choice = 0;
     while(choice >= 0)
     {
-        printf("\n1.Insert at beginning\t2.Insert at end\t3.Insert at random position\t4.Display\n");
+        printf("\n1.Insert at beginning\t2.Insert at end\t3.Insert at random position\t4.Display\t5.Delete from start\t6.Delete from end\t7.Delete at random position\n");
         scanf("%d", &choice);
         switch(choice)
         {
@@ -100,6 +169,12 @@ void main()
                     break;
             case 4 : display();
                     break;
+            case 5 : start_delete();
+                    break;
+            case 6 : end_delete();
+                    break;
+            case 7 : random_delete();
+                     break;
             default : exit(0);
         }
     }
